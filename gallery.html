@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Photo Gallery</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpeg">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .album {
+            margin: 20px auto;
+            width: 95%;
+            max-width: 1000px;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        /* Extra tweak for very small phones */
+        @media (max-width: 480px) {
+            .album {
+                width: 100%;
+                border-radius: 10px;
+            }
+        }
+
+        .album:hover {
+            transform: translateY(-6px);
+        }
+
+        .album-header {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            padding: 18px 24px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .album-header::after {
+            content: "➕";
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .album.open .album-header::after {
+            transform: rotate(45deg);
+        }
+
+        .album-photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .album.open .album-photos {
+            max-height: 2000px;
+            transform: scaleY(1);
+        }
+
+        .album-photos img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .album-photos img:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+        }
+
+        .backbtn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .backbtn {
+            display: inline-block;
+            font-size: 1rem;
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .backbtn:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+
+        /* Fullscreen Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .album-photos {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .album-photos {
+                grid-template-columns: 1fr
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f7f7f7;
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 100px;
+            border-top: 1px solid #eee;
+        }
+
+        footer img {
+            max-width: 80px;
+            margin-bottom: 0px;
+            border-radius: 50%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Albums -->
+    <div class="album">
+        <div class="album-header">🎂 Birthday</div>
+        <div class="album-photos">
+            <img src="birthday/img.jpg" alt="Birthday Photo">
+            <img src="birthday/img1.jpg" alt="Birthday Photo">
+            <img src="birthday/img2.jpg" alt="Birthday Photo">
+            <img src="birthday/img3.jpg" alt="Birthday Photo">
+            <img src="birthday/img4.jpg" alt="Birthday Photo">
+            <img src="birthday/img5.jpg" alt="Birthday Photo">
+        </div>
+    </div>
+
+    <div class="album">
+        <div class="album-header">💍 Anniversary</div>
+        <div class="album-photos">
+            <img src="anniversary/img.jpg" alt="Anniversary Photo">
+            <img src="anniversary/img1.jpg" alt="Anniversary Photo">
+            <img src="anniversary/img2.jpg" alt="Anniversary Photo">
+            <img src="anniversary/img3.jpg" alt="Anniversary Photo">
+            <img src="anniversary/img4.jpg" alt="Anniversary Photo">
+            <img src="anniversary/img5.jpg" alt="Anniversary Photo">
+        </div>
+    </div>
+
+    <div class="album">
+        <div class="album-header">💒 Wedding</div>
+        <div class="album-photos">
+            <img src="wedding/img1.JPG" alt="Wedding Photo">
+            <img src="wedding/img2.JPG" alt="Wedding Photo">
+            <img src="wedding/img3.JPG" alt="Wedding Photo">
+            <img src="wedding/img4.JPG" alt="Wedding Photo">
+            <img src="wedding/img5.JPG" alt="Wedding Photo">
+            <img src="wedding/img6.JPG" alt="Wedding Photo">
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="backbtn-container">
+        <a href="index.html" class="backbtn">⬅ Back to Home</a>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="photoModal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modalImg" src="" alt="Full View">
+    </div>
+
+    <footer>
+        <img src="images/logo.jpeg" alt="Studio Logo" class="footer-logo">
+        <p>© 2025 Meet Photography — Capturing Memories ✨</p>
+    </footer>
+
+
+    <script>
+        document.querySelectorAll(".album-header").forEach(header => {
+            header.addEventListener("click", () => {
+                header.parentElement.classList.toggle("open");
+            });
+        });
+
+        // Photo click -> open modal
+        const modal = document.getElementById("photoModal");
+        const modalImg = document.getElementById("modalImg");
+
+        document.querySelectorAll(".album-photos img").forEach(img => {
+            img.addEventListener("click", () => {
+                modal.style.display = "flex";
+                modalImg.src = img.src;
+            });
+        });
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close modal on background click
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>
